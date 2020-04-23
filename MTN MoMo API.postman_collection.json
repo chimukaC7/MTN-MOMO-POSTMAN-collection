@@ -1,0 +1,833 @@
+{
+	"info": {
+		"_postman_id": "0f31a0c8-5749-4e8f-8b4b-8ee5a8078d18",
+		"name": "MTN MoMo API",
+		"description": "API for sandbox environment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Collection",
+			"item": [
+				{
+					"name": "Collection User",
+					"item": [
+						{
+							"name": "CreateAPIUser",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Reference-Id",
+										"value": "{{Collection UUID}}",
+										"type": "text",
+										"description": "UUID. Recource ID for the API user to be created. UUID version 4 is required"
+									},
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Collection Primary key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"providerCallbackHost\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/v1_0/apiuser",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"v1_0",
+										"apiuser"
+									]
+								},
+								"description": "this request create API User"
+							},
+							"response": []
+						},
+						{
+							"name": "GetCreatedUser",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Collection Primary key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									}
+								],
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/v1_0/apiuser/{{Collection UUID}}",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"v1_0",
+										"apiuser",
+										"{{Collection UUID}}"
+									]
+								},
+								"description": "This get the created user. Remember to provide the UUID in the URI"
+							},
+							"response": []
+						},
+						{
+							"name": "GetAPIKey",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Collection Primary key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									}
+								],
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/v1_0/apiuser/{{Collection UUID}}/apikey",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"v1_0",
+										"apiuser",
+										"{{Collection UUID}}",
+										"apikey"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GeneratingAPIToken",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{Collection apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{Collection UUID}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Collection Primary key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									}
+								],
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/collection/token/",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"collection",
+										"token",
+										""
+									]
+								},
+								"description": "Uses X-Reference-Id as username and apiKey as password"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "RequestToPay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Collection access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Reference-Id",
+								"value": "{{Collection Transaction UUID}}",
+								"type": "text",
+								"description": "UUID, generate new UUID per request"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"type": "text"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{Collection Primary key}}",
+								"type": "text",
+								"description": "Primary key of the Subscription"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": \"5.0\",\n    \"currency\": \"EUR\",\n    \"externalId\": \"63536356\",\n    \"payer\": {\n        \"partyIdType\": \"MSISDN\",\n        \"partyId\": \"0248888736\"\n    },\n    \"payerMessage\": \"Pay for product\",\n    \"payeeNote\": \"payer note\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"collection",
+								"v1_0",
+								"requesttopay"
+							]
+						},
+						"description": "This operation is used to request a payment from a consumer (Payer). The payer will be asked to authorize the payment. The transaction will be executed once the payer has authorized the payment. The requesttopay will be in status PENDING until the transaction is authorized or declined by the payer or it is timed out by the system. Status of the transaction can be validated by using the GET /requesttopay/<resourceId>"
+					},
+					"response": []
+				},
+				{
+					"name": "GetRequestToPayTransactionStatus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Collection access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{Collection Primary key}}",
+								"type": "text",
+								"description": "Primary key of the Subscription"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/collection/v1_0/requesttopay/{{Collection Transaction UUID}}",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"collection",
+								"v1_0",
+								"requesttopay",
+								"{{Collection Transaction UUID}}"
+							]
+						},
+						"description": "Note: this uses the generated x-reference-Id that was use in the payload or the header of the request"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccountBalance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Collection access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{Collection Primary key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/collection/v1_0/account/balance",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"collection",
+								"v1_0",
+								"account",
+								"balance"
+							]
+						},
+						"description": "Get the balance of the account."
+					},
+					"response": []
+				},
+				{
+					"name": "CheckIfUserIsRegisteredAndActive",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Collection access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{Collection Primary key}}",
+								"type": "text",
+								"description": "Primary key of the Subscription"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"equals": true
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/collection/v1_0/accountholder/msisdn/0243656543/active",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"collection",
+								"v1_0",
+								"accountholder",
+								"msisdn",
+								"0243656543",
+								"active"
+							]
+						},
+						"description": "Operation is used to check if an account holder is registered and active in the system."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Disbursement",
+			"item": [
+				{
+					"name": "Disbursement User",
+					"item": [
+						{
+							"name": "CreateAPIUser",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Reference-Id",
+										"value": "{{Disbursement UUID}}",
+										"type": "text",
+										"description": "UUID. Recource ID for the API user to be created. UUID version 4 is required"
+									},
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Disbursement Primary Key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"providerCallbackHost\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/v1_0/apiuser",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"v1_0",
+										"apiuser"
+									]
+								},
+								"description": "this request create API User"
+							},
+							"response": []
+						},
+						{
+							"name": "GetCreatedUser",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Disbursement Primary Key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									}
+								],
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/v1_0/apiuser/{{Disbursement UUID}}",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"v1_0",
+										"apiuser",
+										"{{Disbursement UUID}}"
+									]
+								},
+								"description": "This get the created user. Remember to provide the UUID in the URI"
+							},
+							"response": []
+						},
+						{
+							"name": "GetAPIKey",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Disbursement Primary Key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									}
+								],
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/v1_0/apiuser/{{Disbursement UUID}}/apikey",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"v1_0",
+										"apiuser",
+										"{{Disbursement UUID}}",
+										"apikey"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GeneratingAPIToken",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{Disbursement apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{Disbursement UUID}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Ocp-Apim-Subscription-Key",
+										"value": "{{Disbursement Primary Key}}",
+										"type": "text",
+										"description": "Primary key of the Subscription"
+									}
+								],
+								"url": {
+									"raw": "https://sandbox.momodeveloper.mtn.com/disbursement/token/",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"momodeveloper",
+										"mtn",
+										"com"
+									],
+									"path": [
+										"disbursement",
+										"token",
+										""
+									]
+								},
+								"description": "Uses X-Reference-Id as username and apiKey as password"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Transfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Disbursement access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Reference-Id",
+								"value": "{{Disbursement Transaction UUID}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"type": "text"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{Disbursement Primary Key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"1000.0\",\n  \"currency\": \"EUR\",\n  \"externalId\": \"15234353\",\n  \"payee\": {\n    \"partyIdType\": \"MSISDN\",\n    \"partyId\": \"0245565634\"\n  },\n  \"payerMessage\": \"June Salary\",\n  \"payeeNote\": \"Any thing we want to type.\"\n}"
+						},
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/disbursement/v1_0/transfer",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"disbursement",
+								"v1_0",
+								"transfer"
+							]
+						},
+						"description": "Transfer operation is used to transfer an amount from the owner’s account to a payee account.\nStatus of the transaction can be validated by using the GET /transfer/{referenceId}"
+					},
+					"response": []
+				},
+				{
+					"name": "TransferStatus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Disbursement access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "{{Disbursement Primary Key}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/disbursement/v1_0/transfer/{{Disbursement Transaction UUID}}",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"disbursement",
+								"v1_0",
+								"transfer",
+								"{{Disbursement Transaction UUID}}"
+							]
+						},
+						"description": "This operation is used to get the status of a transfer. X-Reference-Id that was passed in the post is used as reference to the request."
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccountBalance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Disbursement access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"value": "98dded9b14af4ad68a778d93949284fc",
+								"type": "text"
+							},
+							{
+								"key": "X-Target-Environment",
+								"value": "sandbox",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/disbursement/v1_0/account/balance",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"disbursement",
+								"v1_0",
+								"account",
+								"balance"
+							]
+						},
+						"description": "Get the balance of the account."
+					},
+					"response": []
+				},
+				{
+					"name": "CheckIfUserIsRegisteredAndActive",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Disbursement access token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"equals": true,
+								"key": "X-Target-Environment",
+								"value": "sandbox"
+							},
+							{
+								"key": "Ocp-Apim-Subscription-Key",
+								"type": "text",
+								"value": "98dded9b14af4ad68a778d93949284fc"
+							}
+						],
+						"url": {
+							"raw": "https://sandbox.momodeveloper.mtn.com/disbursement/v1_0/accountholder/msisdn/0243656043/active",
+							"protocol": "https",
+							"host": [
+								"sandbox",
+								"momodeveloper",
+								"mtn",
+								"com"
+							],
+							"path": [
+								"disbursement",
+								"v1_0",
+								"accountholder",
+								"msisdn",
+								"0243656043",
+								"active"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Operation is used to check if an account holder is registered and active in the system."
+					},
+					"response": []
+				}
+			],
+			"description": "Disbursements is a service that enables Mobile Money partners to send money in bulk to different recipients with just one click. This setup can be manually executed (logging into the system, uploading recipient's list and trigger payments) or automated (requires a one-time setup of the recipients' lists and commands to effect payment).\r\nExamples of partners that use this service are: Betting companies to pay winners, Disbursements of funds to refugees/beneficiaries among others.\r\n",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GettingUUIDV4",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.uuidgenerator.net/api/version4",
+					"protocol": "https",
+					"host": [
+						"www",
+						"uuidgenerator",
+						"net"
+					],
+					"path": [
+						"api",
+						"version4"
+					]
+				},
+				"description": "This request response with UUID version to be used to generate API User"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "40a97383-7034-4786-83de-efed58fc6683",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a425ffb6-d0af-48a1-9f97-299db01362dd",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
